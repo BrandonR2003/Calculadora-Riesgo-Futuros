@@ -211,18 +211,27 @@ const selectActivo = document.getElementById("activo");
 function actualizarActivos(){
   const cuenta = selectCuenta.value;
   const activosPermitidos = activosPorCuenta[cuenta];
-  const actual = selectActivo.value;
+
   selectActivo.innerHTML = "";
 
+  if (!activosPermitidos) {
+    console.error("Cuenta no válida:", cuenta);
+    return;
+  }
+
   activosPermitidos.forEach(a => {
-    if(!activos[a]) return; 
+    if (!activos[a]) return;
+
     const option = document.createElement("option");
     option.value = a;
     option.textContent = `${a} (${nombresActivos[a] || ""})`;
     selectActivo.appendChild(option);
   });
 
-  if(activosPermitidos.includes(actual)) selectActivo.value = actual;
+  // ✅ seleccionar automáticamente el primero
+  if (selectActivo.options.length > 0) {
+    selectActivo.selectedIndex = 0;
+  }
 }
 
 selectCuenta.addEventListener("change", actualizarActivos);
