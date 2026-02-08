@@ -226,7 +226,10 @@ function actualizarActivos(){
 }
 
 selectCuenta.addEventListener("change", actualizarActivos);
-window.onload = actualizarActivos;
+
+document.addEventListener("DOMContentLoaded", () => {
+  actualizarActivos();
+});
 
 // --- CALCULO ---
 const capitalEl = document.getElementById("capital");
