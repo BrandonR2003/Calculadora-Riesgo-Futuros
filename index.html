@@ -251,39 +251,42 @@ function calcular() {
   const riesgoUSD = capital * r;
 
   const riesgoPorContrato =
-    (sl * act.tickValue) + act.comision[cuenta] // comisión round turn
+    (sl * act.tickValue) + act.comision[cuenta];
 
   const contratos = Math.floor(riesgoUSD / riesgoPorContrato);
-
   if (contratos < 1) return;
+
+  const ticsMax = Math.floor(
+    (riesgoUSD / contratos - act.comision[cuenta]) / act.tickValue
+  );
+
+  const gap = ticsMax - sl;
 
   opciones.push({
     r,
     contratos,
-    ticsMax: sl,
-    gap: 0
+    ticsMax,
+    gap
   });
 });
 
+// ✅ AHORA SÍ: ordenar una sola vez
+opciones.sort((a, b) => Math.abs(a.gap) - Math.abs(b.gap));
 
+// ✅ pintar la tabla una sola vez
+opciones.forEach((o, i) => {
+  tabla.insertAdjacentHTML("beforeend", `
+    <tr class="${i === 0 ? 'best-row' : ''}">
+      <td>${(o.r * 100).toFixed(3)}%</td>
+      <td>${o.contratos}</td>
+      <td>${o.ticsMax}</td>
+      <td>${o.gap >= 0 ? '+' : ''}${o.gap}</td>
+    </tr>
+  `);
+});
 
-  // Ordenamos por tics más cercanos al SL
-  opciones.sort((a, b) => Math.abs(a.gap) - Math.abs(b.gap));
-
-  // Mostramos resultados en la tabla
-  opciones.forEach((o, i) => {
-    tabla.insertAdjacentHTML("beforeend", `
-      <tr class="${i === 0 ? 'best-row' : ''}">
-        <td>${(o.r * 100).toFixed(3)}%</td>
-        <td>${o.contratos}</td>
-        <td>${o.ticsMax}</td>
-        <td>${o.gap >= 0 ? '+' : ''}${o.gap}</td>
-      </tr>
-    `);
-  });
-
-  document.getElementById("resultCard").style.display = "block";
-}
+document.getElementById("resultCard").style.display = "block";
+  
 </script>
 </body>
 </html>
