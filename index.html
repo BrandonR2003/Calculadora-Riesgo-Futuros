@@ -249,8 +249,8 @@ function calcular() {
   riesgos.forEach(r => {
   const riesgoUSD = capital * r;
 
-  const fee = act.fee[cuenta];
-  const riesgoPorContrato = (sl * act.tickValue) + fee;
+  const riesgoPorContrato =
+    (sl * act.tickValue) + (act.fee[cuenta] * 2); // comisión round turn
 
   const contratos = Math.floor(riesgoUSD / riesgoPorContrato);
 
@@ -259,10 +259,11 @@ function calcular() {
   opciones.push({
     r,
     contratos,
-    ticsMax: sl,      // SL fijo
-    gap: 0            // no hay diferencia
+    ticsMax: sl,
+    gap: 0
   });
 });
+
 
 
   // Ordenamos por tics más cercanos al SL
