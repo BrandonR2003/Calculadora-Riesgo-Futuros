@@ -232,55 +232,58 @@ const capitalEl = document.getElementById("capital");
 const slTics = document.getElementById("slTics");
 const tabla = document.getElementById("tabla");
 
-function calcular(){
+function calcular() {
   const capital = +capitalEl.value;
   const sl = +slTics.value;
   const cuenta = selectCuenta.value;
   const activoSel = selectActivo.value;
-  if(!activos[activoSel]) return alert("Activo no definido");
-  if(sl<=0) return alert("SL inválido");
+
+  if (!activos[activoSel]) return alert("Activo no definido");
+  if (sl <= 0) return alert("SL inválido");
 
   const act = activos[activoSel];
-  tabla.innerHTML="";
+  tabla.innerHTML = "";
 
   let opciones = [];
 
-riesgos.forEach(r => {
-  const riesgoUSD = capital * r;
+  riesgos.forEach(r => {
+    const riesgoUSD = capital * r;
 
- const riesgoPorContrato = (sl * act.tickValue) + act.fee[cuenta];
-// Antes: let contratos = Math.floor(riesgoUSD / (sl * act.tickValue));
-let contratos = Math.floor(riesgoUSD / (sl * act.tickValue + act.fee[cuenta]));
+    // Riesgo por contrato solo por SL
+    const riesgoPorContrato = sl * act.tickValue;
 
-while ((contratos * riesgoPorContrato) > riesgoUSD) {
-    contratos--;
-}
+    // Contratos posibles sin contar fees
+    let contratos = Math.floor(riesgoUSD / riesgoPorContrato);
 
+    // Ajustar si la comisión hace que sobrepase el riesgo
+    while (contratos > 0 && (contratos * (riesgoPorContrato + act.fee[cuenta])) > riesgoUSD) {
+      contratos--;
+    }
 
-  if (contratos < 1) return;
+    if (contratos < 1) return;
 
-  // 3️⃣ tics máximos posibles PARA MOSTRAR, sin afectar los contratos
-  const ticsMax = contratos > 0 ? Math.floor((riesgoUSD - contratos * act.fee[cuenta]) / (contratos * act.tickValue)) : 0;
+    // Tics máximos posibles sin afectar contratos
+    const ticsMax = Math.floor((riesgoUSD - contratos * act.fee[cuenta]) / (contratos * act.tickValue));
 
-  opciones.push({r, contratos, ticsMax, gap: ticsMax - sl});
-});
+    opciones.push({ r, contratos, ticsMax, gap: ticsMax - sl });
+  });
 
   // Ordenamos por tics más cercanos al SL
-  opciones.sort((a,b)=>Math.abs(a.gap) - Math.abs(b.gap));
+  opciones.sort((a, b) => Math.abs(a.gap) - Math.abs(b.gap));
 
   // Mostramos resultados en la tabla
-  opciones.forEach((o,i)=>{
-    tabla.insertAdjacentHTML("beforeend",`
-      <tr class="${i==0?'best-row':''}">
-        <td>${(o.r*100).toFixed(3)}%</td>
+  opciones.forEach((o, i) => {
+    tabla.insertAdjacentHTML("beforeend", `
+      <tr class="${i === 0 ? 'best-row' : ''}">
+        <td>${(o.r * 100).toFixed(3)}%</td>
         <td>${o.contratos}</td>
         <td>${o.ticsMax}</td>
-        <td>${o.gap>=0?'+':''}${o.gap}</td>
+        <td>${o.gap >= 0 ? '+' : ''}${o.gap}</td>
       </tr>
     `);
   });
 
-  document.getElementById("resultCard").style.display="block";
+  document.getElementById("resultCard").style.display = "block";
 }
 </script>
 </body>
