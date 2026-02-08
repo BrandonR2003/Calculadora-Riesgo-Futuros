@@ -248,18 +248,19 @@ function calcular(){
 riesgos.forEach(r => {
   const riesgoUSD = capital * r;
 
-  // 1️⃣ contratos según SL y tickValue sin sumar fee
-  let contratos = Math.floor(riesgoUSD / (sl * act.tickValue));
+ const riesgoPorContrato = (sl * act.tickValue) + act.fee[cuenta];
+// Antes: let contratos = Math.floor(riesgoUSD / (sl * act.tickValue));
+let contratos = Math.floor(riesgoUSD / (sl * act.tickValue + act.fee[cuenta]));
 
-  // 2️⃣ verificamos que el riesgo incluyendo fees no supere el permitido
-  while (contratos > 0 && (contratos * sl * act.tickValue + contratos * act.fee[cuenta]) > riesgoUSD) {
+while ((contratos * riesgoPorContrato) > riesgoUSD) {
     contratos--;
-  }
+}
+
 
   if (contratos < 1) return;
 
   // 3️⃣ tics máximos posibles PARA MOSTRAR, sin afectar los contratos
-  const ticsMax = Math.floor((riesgoUSD - contratos * act.fee[cuenta]) / (contratos * act.tickValue));
+  const ticsMax = contratos > 0 ? Math.floor((riesgoUSD - contratos * act.fee[cuenta]) / (contratos * act.tickValue)) : 0;
 
   opciones.push({r, contratos, ticsMax, gap: ticsMax - sl});
 });
