@@ -114,29 +114,93 @@ const activosPorCuenta = {
 };
 
 const nombresActivos = {
-  ES: "E-MINI S&P 500", MES:"MICRO S&P 500", NQ:"E-MINI NASDAQ", MNQ:"MICRO NASDAQ", RTY:"E-MINI RUSSELL",
-  M2K:"MICRO RUSSELL", HE:"LEAN HOG", LE:"LIVE CATTLE", "6A":"AUSTRALIAN DOLLAR", "M6A":"E-MICRO AUD/USD",
-  "6B":"BRITISH POUND","6C":"CANADIAN DOLLAR","6E":"EURO","M6E":"E-MICRO EUR/USD","6J":"JAPANESE YEN",
-  "6N":"NEW ZEALAND","6S":"SWISS FRANC", YM:"E-MINI DOW JONES INDEX", MYM:"MICRO E-MINI DOW JONES INDEX",
-  ZC:"CORN",ZL:"SOYBEAN OIL",ZM:"SOYBEAN MEAL",ZS:"SOYBEAN",ZW:"WHEAT",GC:"COMEX GOLD",QO:"E-MINI GOLD",
-  MGC:"10 TROY OZ GOLD",HG:"COMEX COPPER",MHG:"MICRO COPPER",SI:"COMEX SILVER",CL:"CRUDE OIL",QM:"E-MINI CRUDE OIL",
-  MCL:"MICRO CRUDE OIL",NG:"NATURAL GAS",QG:"E-MINI NATURAL GAS",RB:"RBOB GASOLINE", EMD:"E-MINI MIDCAP",
-  MBT:"MICRO BITCOIN", MET:"MICRO ETHER", HO:"NY HARBOR ULSD", GF:"FEEDER CATTLE", QI:"COMEX MINY SILVER"
+  "ES": "E-MINI S&P 500",
+  "MES": "MICRO S&P 500",
+  "NQ": "E-MINI NASDAQ",
+  "MNQ": "MICRO NASDAQ",
+  "RTY": "E-MINI RUSSELL",
+  "M2K": "MICRO RUSSELL",
+  "HE": "LEAN HOG",
+  "LE": "LIVE CATTLE",
+  "6A": "AUSTRALIAN DOLLAR",
+  "M6A": "E-MICRO AUD/USD",
+  "6B": "BRITISH POUND",
+  "6C": "CANADIAN DOLLAR",
+  "6E": "EURO",
+  "M6E": "E-MICRO EUR/USD",
+  "6J": "JAPANESE YEN",
+  "6N": "NEW ZEALAND",
+  "6S": "SWISS FRANC",
+  "YM": "E-MINI DOW JONES INDEX",
+  "MYM": "MICRO E-MINI DOW JONES INDEX",
+  "ZC": "CORN",
+  "ZL": "SOYBEAN OIL",
+  "ZM": "SOYBEAN MEAL",
+  "ZS": "SOYBEAN",
+  "ZW": "WHEAT",
+  "GC": "COMEX GOLD",
+  "QO": "E-MINI GOLD",
+  "MGC": "10 TROY OZ GOLD",
+  "HG": "COMEX COPPER",
+  "MHG": "MICRO COPPER",
+  "SI": "COMEX SILVER",
+  "CL": "CRUDE OIL",
+  "QM": "E-MINI CRUDE OIL",
+  "MCL": "MICRO CRUDE OIL",
+  "NG": "NATURAL GAS",
+  "QG": "E-MINI NATURAL GAS",
+  "RB": "RBOB GASOLINE",
+  "QI": "COMEX MINY SILVER",
+  "GF": "FEEDER CATTLE",
+  "MBT": "MICRO BITCOIN",
+  "MET": "MICRO ETHER",
+  "EMD": "E-MINI MIDCAP",
+  "HO": "NY HARBOR ULSD"
 };
 
-// --- Datos de cada activo ---
+// --- Datos de cada activo con tickValue ---
 const activos = {
-  ES:{tick:0.25, fee:{APEX:3.10,FN:5.76}},
-  MES:{tick:0.25, fee:{APEX:1.04,FN:1.90}},
-  NQ:{tick:0.25, fee:{APEX:3.10,FN:5.76}},
-  MNQ:{tick:0.25, fee:{APEX:1.04,FN:1.90}},
-  RTY:{tick:0.1, fee:{APEX:3.10,FN:5.76}},
-  M2K:{tick:0.1, fee:{APEX:1.04,FN:1.9}},
-  HE:{tick:0.03, fee:{APEX:4.54,FN:7.2}},
-  LE:{tick:0.03, fee:{APEX:4.54,FN:7.2}},
-  "6A":{tick:0.00005, fee:{APEX:3.54,FN:6.2}},
-  M6A:{tick:0.0001, fee:{APEX:0.82,FN:1.68}},
-  // agregar los demás según necesites
+  ES:{tick:0.25, tickValue:12.5, fee:{APEX:3.10,FN:5.76}},
+  MES:{tick:0.25, tickValue:1.25, fee:{APEX:1.04,FN:1.90}},
+  NQ:{tick:0.25, tickValue:5, fee:{APEX:3.10,FN:5.76}},
+  MNQ:{tick:0.25, tickValue:0.50, fee:{APEX:1.04,FN:1.90}},
+  RTY:{tick:0.10, tickValue:5, fee:{APEX:3.10,FN:5.76}},
+  M2K:{tick:0.10, tickValue:0.50, fee:{APEX:1.04,FN:1.90}},
+  HE:{tick:0.03, tickValue:12, fee:{APEX:4.54,FN:7.20}},
+  LE:{tick:0.03, tickValue:12, fee:{APEX:4.54,FN:7.20}},
+  "6A":{tick:0.00005, tickValue:6.25, fee:{APEX:3.54,FN:6.20}},
+  M6A:{tick:0.0001, tickValue:0.625, fee:{APEX:0.82,FN:1.68}},
+  "6B":{tick:0.0001, tickValue:6.25, fee:{APEX:3.54,FN:6.20}},
+  "6C":{tick:0.00005, tickValue:5, fee:{APEX:3.54,FN:6.20}},
+  "6E":{tick:0.00005, tickValue:6.25, fee:{APEX:3.54,FN:6.20}},
+  M6E:{tick:0.0001, tickValue:0.625, fee:{APEX:0.82,FN:0.00}},
+  "6J":{tick:0.0000005, tickValue:0.50, fee:{APEX:3.54,FN:6.20}},
+  "6N":{tick:0.00005, tickValue:6.25, fee:{APEX:3.54,FN:6.20}},
+  "6S":{tick:0.00005, tickValue:5, fee:{APEX:3.54,FN:6.20}},
+  YM:{tick:1, tickValue:5, fee:{APEX:3.10,FN:5.76}},
+  MYM:{tick:1, tickValue:0.50, fee:{APEX:1.04,FN:1.90}},
+  ZC:{tick:0.25, tickValue:12.5, fee:{APEX:4.54,FN:1.00}},
+  ZL:{tick:0.01, tickValue:11.2, fee:{APEX:4.54,FN:7.20}},
+  ZM:{tick:0.10, tickValue:11.0, fee:{APEX:4.54,FN:7.20}},
+  ZS:{tick:0.25, tickValue:6.25, fee:{APEX:4.54,FN:0.00}},
+  ZW:{tick:0.25, tickValue:5.0, fee:{APEX:4.54,FN:0.00}},
+  GC:{tick:0.10, tickValue:10, fee:{APEX:3.54,FN:6.20}},
+  QO:{tick:0.25, tickValue:12.5, fee:{APEX:2.34,FN:0.00}},
+  MGC:{tick:0.10, tickValue:1, fee:{APEX:1.34,FN:2.40}},
+  HG:{tick:0.0005, tickValue:12.5, fee:{APEX:3.54,FN:6.20}},
+  MHG:{tick:0.0005, tickValue:1.25, fee:{APEX:0,FN:2.40}},
+  SI:{tick:0.005, tickValue:50, fee:{APEX:3.54,FN:6.20}},
+  CL:{tick:0.01, tickValue:10, fee:{APEX:3.54,FN:6.00}},
+  QM:{tick:0.025, tickValue:2.50, fee:{APEX:2.74,FN:5.40}},
+  MCL:{tick:0.01, tickValue:1, fee:{APEX:1.34,FN:2.20}},
+  NG:{tick:0.001, tickValue:10, fee:{APEX:3.54,FN:6.20}},
+  QG:{tick:0.005, tickValue:5, fee:{APEX:1.34,FN:4.00}},
+  RB:{tick:0.0001, tickValue:42.5, fee:{APEX:3.34,FN:6.00}},
+  MBT:{tick:5, tickValue:5, fee:{APEX:5.34,FN:0.00}},
+  MET:{tick:0.5, tickValue:0.5, fee:{APEX:0.74,FN:0.00}},
+  GF:{tick:0.03, tickValue:12, fee:{APEX:4.54,FN:6.20}},
+  HO:{tick:0.05, tickValue:42, fee:{APEX:0,FN:0}},
+  EMD:{tick:0.10, tickValue:5, fee:{APEX:0,FN:0}}
 };
 
 // --- FILTRO DINÁMICO ---
@@ -148,13 +212,15 @@ function actualizarActivos(){
   const activosPermitidos = activosPorCuenta[cuenta];
   const actual = selectActivo.value;
   selectActivo.innerHTML = "";
-  activosPermitidos.forEach(a=>{
-    if(!activos[a]) return;
+
+  activosPermitidos.forEach(a => {
+    if(!activos[a]) return; 
     const option = document.createElement("option");
     option.value = a;
     option.textContent = `${a} (${nombresActivos[a] || ""})`;
     selectActivo.appendChild(option);
   });
+
   if(activosPermitidos.includes(actual)) selectActivo.value = actual;
 }
 
@@ -180,10 +246,10 @@ function calcular(){
   let opciones = [];
   riesgos.forEach(r=>{
     const riesgoUSD = capital*r;
-    let contratos = Math.floor(riesgoUSD / (sl*act.tick + act.fee[cuenta]));
+    let contratos = Math.floor(riesgoUSD / (sl*act.tickValue + act.fee[cuenta]));
     if(contratos<1) return;
     const feeTotal = contratos*act.fee[cuenta];
-    let ticsMax = Math.floor((riesgoUSD-feeTotal)/(act.tick*contratos));
+    let ticsMax = Math.floor((riesgoUSD-feeTotal)/(act.tickValue*contratos));
     if(ticsMax<sl) return;
     opciones.push({r, contratos, ticsMax, gap:ticsMax-sl});
   });
