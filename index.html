@@ -220,15 +220,12 @@ function actualizarActivos(){
   }
 
   activosPermitidos.forEach(a => {
-    if (!activos[a]) return;
-
     const option = document.createElement("option");
     option.value = a;
     option.textContent = `${a} (${nombresActivos[a] || ""})`;
     selectActivo.appendChild(option);
   });
 
-  // ✅ seleccionar automáticamente el primero
   if (selectActivo.options.length > 0) {
     selectActivo.selectedIndex = 0;
   }
