@@ -84,7 +84,7 @@ th{background:#2c2c2c}
 <label>SL (tics):</label>
 <input type="number" id="slTics">
 
-<button onclick="calcular()">Calcular</button>
+<button id="btnCalcular">Calcular</button>
 </div>
 
 <div class="card" id="resultCard" style="display:none">
@@ -105,6 +105,8 @@ th{background:#2c2c2c}
 </div>
 
 <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
 // --- CONFIG ---
 const riesgos = [0.01,0.008,0.0075,0.006,0.005,0.0045,0.004,0.0033,0.003,0.0025,0.002,0.0015,0.00125,0.001,0.0005];
 
@@ -292,6 +294,12 @@ opciones.forEach((o, i) => {
 });
 
 document.getElementById("resultCard").style.display = "block";
+}
+    
+  document.getElementById("btnCalcular")
+  .addEventListener("click", calcular);
+
+});
   
 </script>
 </body>
