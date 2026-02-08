@@ -251,16 +251,15 @@ riesgos.forEach(r => {
   // 1️⃣ contratos según SL y tickValue sin sumar fee
   let contratos = Math.floor(riesgoUSD / (sl * act.tickValue));
 
-  // 2️⃣ asegurarse que el riesgo total incluyendo fees no supere el riesgoUSD
+  // 2️⃣ verificamos que el riesgo incluyendo fees no supere el permitido
   while (contratos > 0 && (contratos * sl * act.tickValue + contratos * act.fee[cuenta]) > riesgoUSD) {
     contratos--;
   }
 
   if (contratos < 1) return;
 
-  // 3️⃣ tics máximos posibles considerando riesgo neto
+  // 3️⃣ tics máximos posibles PARA MOSTRAR, sin afectar los contratos
   const ticsMax = Math.floor((riesgoUSD - contratos * act.fee[cuenta]) / (contratos * act.tickValue));
-  if (ticsMax < sl) return;
 
   opciones.push({r, contratos, ticsMax, gap: ticsMax - sl});
 });
