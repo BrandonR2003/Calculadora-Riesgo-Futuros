@@ -231,12 +231,9 @@ function actualizarActivos(){
   }
 }
 
-selectCuenta.addEventListener("change", actualizarActivos);
-
-document.addEventListener("DOMContentLoaded", () => {
-  actualizarActivos();
-});
-
+  selectCuenta.addEventListener("change", actualizarActivos);
+actualizarActivos(); // ← ESTA línea
+  
 // --- CALCULO ---
 const capitalEl = document.getElementById("capital");
 const slTics = document.getElementById("slTics");
