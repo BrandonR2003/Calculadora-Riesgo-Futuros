@@ -246,16 +246,23 @@ function calcular(){
   let opciones = [];
   riesgos.forEach(r=>{
     const riesgoUSD = capital*r;
-    let contratos = Math.floor(riesgoUSD / (sl*act.tickValue + act.fee[cuenta]));
-    if(contratos<1) return;
-    const feeTotal = contratos*act.fee[cuenta];
-    let ticsMax = Math.floor((riesgoUSD-feeTotal)/(act.tickValue*contratos));
-    if(ticsMax<sl) return;
-    opciones.push({r, contratos, ticsMax, gap:ticsMax-sl});
+
+    // 1️⃣ Calculamos contratos máximos según SL y tickValue (sin fee aún)
+    let contratos = Math.floor(riesgoUSD / (sl * act.tickValue));
+    if(contratos < 1) return;
+
+    // 2️⃣ Calculamos el tics máximo posible considerando el fee total
+    const feeTotal = contratos * act.fee[cuenta];
+    let ticsMax = Math.floor((riesgoUSD - feeTotal) / (contratos * act.tickValue));
+    if(ticsMax < sl) return;
+
+    opciones.push({r, contratos, ticsMax, gap: ticsMax - sl});
   });
 
-  opciones.sort((a,b)=>Math.abs(a.gap)-Math.abs(b.gap));
+  // Ordenamos por tics más cercanos al SL
+  opciones.sort((a,b)=>Math.abs(a.gap) - Math.abs(b.gap));
 
+  // Mostramos resultados en la tabla
   opciones.forEach((o,i)=>{
     tabla.insertAdjacentHTML("beforeend",`
       <tr class="${i==0?'best-row':''}">
