@@ -251,7 +251,7 @@ function calcular() {
   const riesgoUSD = capital * r;
 
   const riesgoPorContrato =
-    (sl * act.tickValue) + (act.fee[cuenta] * 2); // comisión round turn
+    (sl * act.tickValue) + act.comision[cuenta] // comisión round turn
 
   const contratos = Math.floor(riesgoUSD / riesgoPorContrato);
 
